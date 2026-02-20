@@ -27,7 +27,7 @@ const SmartImage: React.FC<Props> = ({ src, alt, className, containerClassName, 
       {/* 2. Error State - Elegant Fallback */}
       {hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-slate-900 z-10">
-          <span className="text-gold-500/30 text-[0.6rem] uppercase tracking-[0.2em] font-serif">Panteras BSB</span>
+          <span className="text-gold-500/30 text-[0.6rem] uppercase tracking-[0.2em] font-serif">Panteras <span className="text-[0.5rem] font-bold tracking-[0.15em] font-sans">BSB</span></span>
         </div>
       )}
 

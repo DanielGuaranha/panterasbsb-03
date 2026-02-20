@@ -14,12 +14,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <div className="max-w-6xl mx-auto px-4 h-full flex items-center justify-between">
           
           {/* Logo */}
-          <Link to="/" className="flex flex-col items-center group relative">
+          <Link to="/" className="flex items-baseline gap-1.5 group relative">
             <span className="font-serif text-xl md:text-2xl text-gold-500 font-bold tracking-widest group-hover:text-gold-300 transition-colors drop-shadow-sm">
               PANTERAS
             </span>
-            <span className="text-[0.5rem] md:text-[0.55rem] text-gold-200/80 uppercase tracking-[0.3em] absolute -bottom-2 md:-bottom-2.5">
-              Brasília
+            <span className="text-[0.65rem] md:text-[0.75rem] text-gold-300/90 font-bold uppercase tracking-[0.25em] group-hover:text-gold-200 transition-colors border-l border-gold-500/40 pl-1.5">
+              BSB
             </span>
           </Link>
 
@@ -66,7 +66,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             
             {/* Brand */}
             <div className="flex flex-col items-center md:items-start">
-              <h3 className="font-serif text-gold-600/80 mb-4 text-lg">Panteras BSB</h3>
+              <h3 className="mb-4 text-lg flex items-baseline gap-1.5">
+                <span className="font-serif text-gold-600/80">Panteras</span>
+                <span className="text-[0.6rem] text-gold-400/60 font-bold uppercase tracking-[0.2em] border-l border-gold-700/30 pl-1.5">BSB</span>
+              </h3>
               <p className="text-slate-500 text-xs leading-relaxed max-w-xs mx-auto md:mx-0 font-light">
                 {t('footer.brand_desc')}
               </p>
@@ -97,7 +100,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
           <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <p className="text-slate-600 text-[0.65rem]">
-              &copy; {new Date().getFullYear()} Panteras BSB. {t('footer.rights')}
+              &copy; {new Date().getFullYear()} Panteras <span className="text-[0.55rem] font-bold tracking-[0.15em] text-slate-500">BSB</span>. {t('footer.rights')}
             </p>
             
             <div className="flex flex-col md:flex-row items-center gap-6">

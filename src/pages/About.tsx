@@ -20,7 +20,7 @@ const About: React.FC = () => {
           </div>
           
           <h1 className="font-serif text-4xl md:text-6xl text-white mb-6 drop-shadow-lg leading-tight">
-            {t('about.hero_title')} <span className="text-gold-500">Panteras BSB</span>
+            {t('about.hero_title')} <span className="text-gold-500">Panteras <span className="text-gold-300/90 text-[0.6em] font-bold tracking-[0.2em] font-sans border-l border-gold-500/40 pl-2 ml-0.5">BSB</span></span>
           </h1>
           
           <p className="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-light">

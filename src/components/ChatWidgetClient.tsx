@@ -122,7 +122,7 @@ const ChatWidgetClient: React.FC<Props> = ({ companionId, companionName, compani
           </form>
           
           <div className="bg-[#0f0f0f] pb-2 pt-1 text-center shrink-0">
-             <span className="text-[0.55rem] text-slate-700 uppercase tracking-widest">Panteras BSB • {t('chat.secure_badge')}</span>
+             <span className="text-[0.55rem] text-slate-700 uppercase tracking-widest">Panteras <span className="text-[0.5rem] font-bold tracking-[0.15em]">BSB</span> • {t('chat.secure_badge')}</span>
           </div>
         </div>
       )}
