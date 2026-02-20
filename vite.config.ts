@@ -10,7 +10,9 @@ export default defineConfig({
     minify: 'esbuild',
   },
   server: {
-    host: true, // Necessário para preview no IDX
-    port: 3000
+    host: true, 
+    port: 3000,
+    // Adicione esta linha para corrigir o erro:
+    allowedHosts: ['sb-25gwbhq0xro5.vercel.run'] 
   }
 })
