@@ -5,6 +5,7 @@ export interface Companion {
   display_name: string;
   short_bio: string;
   full_bio: string;
+  state: string;
   city: string;
   neighborhood: string;
   is_vip: boolean;

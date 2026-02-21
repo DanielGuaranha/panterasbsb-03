@@ -20,7 +20,8 @@ const Home: React.FC = () => {
   const { t } = useLanguage();
   const [shuffledCompanions, setShuffledCompanions] = useState<Companion[]>([]);
   const [categoryFilter, setCategoryFilter] = useState<'all' | 'vip' | 'destaque' | 'novata'>('all');
-  const [selectedCity, setSelectedCity] = useState<string>('');
+  const [selectedState, setSelectedState] = useState<string>('DF');
+  const [selectedCity, setSelectedCity] = useState<string>('Brasilia');
   const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>('');
 
   useEffect(() => {
@@ -83,23 +84,35 @@ const Home: React.FC = () => {
 
   // Reset logic
   useEffect(() => {
+    setSelectedCity('');
+    setSelectedNeighborhood('');
+  }, [selectedState]);
+
+  useEffect(() => {
     setSelectedNeighborhood('');
   }, [selectedCity]);
 
   // Memoized Data
   const uniqueCities = useMemo(() => {
-    const cities = shuffledCompanions.map(c => c.city).filter(Boolean);
+    let filtered = shuffledCompanions;
+    if (selectedState) {
+      filtered = filtered.filter(c => c.state === selectedState);
+    }
+    const cities = filtered.map(c => c.city).filter(Boolean);
     return Array.from(new Set(cities)).sort();
-  }, [shuffledCompanions]);
+  }, [shuffledCompanions, selectedState]);
 
   const uniqueNeighborhoods = useMemo(() => {
     let filtered = shuffledCompanions;
+    if (selectedState) {
+      filtered = filtered.filter(c => c.state === selectedState);
+    }
     if (selectedCity) {
       filtered = filtered.filter(c => c.city === selectedCity);
     }
     const hoods = filtered.map(c => c.neighborhood).filter(Boolean);
     return Array.from(new Set(hoods)).sort();
-  }, [shuffledCompanions, selectedCity]);
+  }, [shuffledCompanions, selectedState, selectedCity]);
 
   // Filter Logic
   const filteredList = useMemo(() => {
@@ -114,6 +127,10 @@ const Home: React.FC = () => {
       list = list.filter(c => (now.getTime() - new Date(c.created_at).getTime()) < (4 * 24 * 60 * 60 * 1000));
     }
 
+    if (selectedState) {
+      list = list.filter(c => c.state === selectedState);
+    }
+
     if (selectedCity) {
       list = list.filter(c => c.city === selectedCity);
     }
@@ -122,13 +139,14 @@ const Home: React.FC = () => {
       list = list.filter(c => c.neighborhood === selectedNeighborhood);
     }
     return list;
-  }, [shuffledCompanions, categoryFilter, selectedCity, selectedNeighborhood]);
+  }, [shuffledCompanions, categoryFilter, selectedState, selectedCity, selectedNeighborhood]);
 
-  const hasActiveFilters = categoryFilter !== 'all' || selectedCity !== '' || selectedNeighborhood !== '';
+  const hasActiveFilters = categoryFilter !== 'all' || selectedState !== 'DF' || selectedCity !== 'Brasilia' || selectedNeighborhood !== '';
 
   const handleClearFilters = () => {
     setCategoryFilter('all');
-    setSelectedCity('');
+    setSelectedState('DF');
+    setSelectedCity('Brasilia');
     setSelectedNeighborhood('');
   };
 
@@ -143,6 +161,8 @@ const Home: React.FC = () => {
       <FilterBar
         categoryFilter={categoryFilter}
         setCategoryFilter={setCategoryFilter}
+        selectedState={selectedState}
+        setSelectedState={setSelectedState}
         selectedCity={selectedCity}
         setSelectedCity={setSelectedCity}
         selectedNeighborhood={selectedNeighborhood}
