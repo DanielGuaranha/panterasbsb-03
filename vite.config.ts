@@ -10,8 +10,8 @@ export default defineConfig({
     minify: 'esbuild',
   },
   server: {
-    host: true,
-    port: 3000,
-    allowedHosts: true
+    host: true, // Necessário para preview no IDX
+    port: 3000
+    allowedHost: true
   }
 })
