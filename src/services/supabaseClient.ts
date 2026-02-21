@@ -149,38 +149,53 @@ const MOCK_COMPANIONS: Companion[] = [
 ];
 
 export const getCompanions = async (): Promise<Companion[]> => {
+  console.log('[v0] getCompanions called');
+  console.log('[v0] SUPABASE_URL:', SUPABASE_URL ? 'SET' : 'NOT SET');
+  console.log('[v0] SUPABASE_ANON_KEY:', SUPABASE_ANON_KEY ? 'SET' : 'NOT SET');
+  console.log('[v0] supabase client:', supabase ? 'INITIALIZED' : 'NULL');
+
   if (!supabase) {
-    console.warn('Supabase Client não inicializado. Usando Mock Data.');
+    console.warn('[v0] Supabase Client nao inicializado. Usando Mock Data.');
     return MOCK_COMPANIONS;
   }
   
   try {
     const { data, error } = await supabase
       .from('companions')
-      .select(`*, gallery_items (url)`)
+      .select(`*, gallery_items (url, is_free, media_type)`)
       .eq('whatsapp_status', 'active')
       .order('is_vip', { ascending: false })
       .order('featured_until', { ascending: false, nullsFirst: false });
     
     if (error) {
-      console.error('Erro ao buscar acompanhantes:', error);
-      // Fallback para Mock se der erro no banco (ex: tabela vazia ou permissão)
+      console.error('[v0] Erro ao buscar acompanhantes:', error);
       return MOCK_COMPANIONS;
     }
     
-    // Se o banco estiver vazio, usa o Mock para não mostrar tela em branco
+    console.log('[v0] Companions retornados do Supabase:', data?.length);
+    if (data && data.length > 0) {
+      console.log('[v0] Primeiro companion:', JSON.stringify(data[0], null, 2));
+    }
+
     if (!data || data.length === 0) return MOCK_COMPANIONS;
 
-    const processedData = data.map((item: any) => ({
-      ...item,
-      // Usa a primeira foto da galeria como capa, se existir. 
-      // Se não, o ProfileCard usará seu fallback interno.
-      image_url: item.gallery_items?.[0]?.url
-    }));
+    const processedData = data.map((item: any) => {
+      // Prioridade: 1) primeira foto free da galeria, 2) image_url da tabela companions, 3) null
+      const freeGalleryPhoto = item.gallery_items?.find((g: any) => g.is_free && g.media_type === 'image');
+      const anyGalleryPhoto = item.gallery_items?.[0];
+      const resolvedImage = freeGalleryPhoto?.url || anyGalleryPhoto?.url || item.image_url || null;
+      
+      console.log(`[v0] ${item.display_name}: gallery_items=${item.gallery_items?.length || 0}, image_url=${item.image_url || 'null'}, resolved=${resolvedImage ? 'YES' : 'NO'}`);
+      
+      return {
+        ...item,
+        image_url: resolvedImage,
+      };
+    });
 
     return processedData as Companion[];
   } catch (e) {
-    console.error('Erro de conexão:', e);
+    console.error('[v0] Erro de conexao:', e);
     return MOCK_COMPANIONS;
   }
 };
