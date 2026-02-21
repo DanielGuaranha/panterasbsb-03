@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import ProfileCard from '../components/ProfileCard';
+import FilterBar from '../components/FilterBar';
 import { Companion } from '../types';
 import { getCompanions } from '../services/supabaseClient';
 import SEO from '../components/SEO';
@@ -17,16 +18,13 @@ function fisherYatesShuffle<T>(array: T[]): T[] {
 
 const Home: React.FC = () => {
   const { t } = useLanguage();
-  const [companions, setCompanions] = useState<Companion[]>([]);
   const [shuffledCompanions, setShuffledCompanions] = useState<Companion[]>([]);
   const [categoryFilter, setCategoryFilter] = useState<'all' | 'vip' | 'destaque' | 'novata'>('all');
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>('');
-  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     getCompanions().then((data) => {
-      setCompanions(data);
       const SESSION_KEY = 'panteras_sort_order';
       const storedOrderJson = sessionStorage.getItem(SESSION_KEY);
       let finalOrder: Companion[] = [];
@@ -142,64 +140,19 @@ const Home: React.FC = () => {
         schema={schemaData}
       />
       
-      <nav aria-label="Filtros de busca" className="sticky top-14 md:top-16 z-40 bg-midnight/95 backdrop-blur-md border-b border-gold-900/30 shadow-2xl transition-all">
-        <div className="max-w-6xl mx-auto px-2 md:px-4 py-2 flex flex-col md:flex-row gap-2">
-          <div className="flex items-center justify-between gap-2 w-full overflow-hidden">
-            <div className="flex gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x flex-1 mask-linear-fade">
-              <FilterButton label={t('home.filters.all')} active={categoryFilter === 'all'} onClick={() => setCategoryFilter('all')} />
-              <FilterButton label={`💎 ${t('home.filters.vip')}`} active={categoryFilter === 'vip'} onClick={() => setCategoryFilter('vip')} />
-              <FilterButton label={`✨ ${t('home.filters.featured')}`} active={categoryFilter === 'destaque'} onClick={() => setCategoryFilter('destaque')} />
-              <FilterButton label={`🆕 ${t('home.filters.new')}`} active={categoryFilter === 'novata'} onClick={() => setCategoryFilter('novata')} />
-            </div>
-            <button 
-              onClick={() => setShowFilters(!showFilters)}
-              className={`p-2 rounded border transition-colors shrink-0 ${hasActiveFilters ? 'bg-slate-800 text-gold-400 border-gold-500/50' : 'bg-slate-800 text-slate-400 border-slate-700'}`}
-              aria-label="Filtrar por local"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-              </svg>
-            </button>
-          </div>
-
-          <div className={`${showFilters ? 'flex' : 'hidden'} md:flex flex-col md:flex-row gap-2 md:items-center bg-[#0b0b0b] md:bg-transparent p-2 md:p-0 rounded border border-slate-800 md:border-none animate-fade-in`}>
-             <div className="relative flex-1 min-w-[120px]">
-                <select 
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="w-full appearance-none bg-slate-800 text-slate-200 text-xs font-medium border border-slate-700 rounded px-3 py-2 focus:outline-none focus:border-gold-500"
-                >
-                  <option value="">{t('home.filters.all_cities')}</option>
-                  {uniqueCities.map(city => <option key={city} value={city}>{city}</option>)}
-                </select>
-             </div>
-             <div className="relative flex-1 min-w-[120px]">
-                <select 
-                  value={selectedNeighborhood}
-                  onChange={(e) => setSelectedNeighborhood(e.target.value)}
-                  disabled={uniqueNeighborhoods.length === 0}
-                  className="w-full appearance-none bg-slate-800 text-slate-200 text-xs font-medium border border-slate-700 rounded px-3 py-2 focus:outline-none focus:border-gold-500 disabled:opacity-50"
-                >
-                  <option value="">{t('home.filters.all_neighborhoods')}</option>
-                  {uniqueNeighborhoods.map(hood => <option key={hood} value={hood}>{hood}</option>)}
-                </select>
-             </div>
-             
-             {hasActiveFilters && (
-                <button 
-                  onClick={handleClearFilters} 
-                  className="flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-gold-500/30 rounded text-[0.65rem] font-bold uppercase tracking-wider text-slate-400 hover:text-gold-400 transition-all duration-300"
-                  title="Limpar todos os filtros"
-                >
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                  {t('home.filters.clear')}
-                </button>
-             )}
-          </div>
-        </div>
-      </nav>
+      <FilterBar
+        categoryFilter={categoryFilter}
+        setCategoryFilter={setCategoryFilter}
+        selectedCity={selectedCity}
+        setSelectedCity={setSelectedCity}
+        selectedNeighborhood={selectedNeighborhood}
+        setSelectedNeighborhood={setSelectedNeighborhood}
+        uniqueCities={uniqueCities}
+        uniqueNeighborhoods={uniqueNeighborhoods}
+        hasActiveFilters={hasActiveFilters}
+        onClearFilters={handleClearFilters}
+        resultCount={filteredList.length}
+      />
 
       <main className="max-w-6xl mx-auto px-2 md:px-4 mt-4">
         <div className="flex items-baseline justify-between mb-4 px-1">
@@ -249,22 +202,5 @@ const Home: React.FC = () => {
     </div>
   );
 };
-
-const FilterButton: React.FC<{ label: string; active: boolean; onClick: () => void }> = ({ label, active, onClick }) => (
-  <button
-    onClick={onClick}
-    role="tab"
-    aria-selected={active}
-    className={`
-      whitespace-nowrap px-4 py-1.5 rounded-full text-[0.65rem] md:text-xs font-bold uppercase tracking-wider transition-all duration-300 snap-start border
-      ${active 
-        ? 'bg-gold-500 text-black border-gold-500 shadow-[0_0_10px_rgba(212,175,55,0.3)]' 
-        : 'bg-transparent text-slate-400 border-slate-700 hover:border-gold-500/50 hover:text-gold-200'
-      }
-    `}
-  >
-    {label}
-  </button>
-);
 
 export default Home;
