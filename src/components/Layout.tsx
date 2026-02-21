@@ -14,12 +14,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <div className="max-w-6xl mx-auto px-4 h-full flex items-center justify-between">
           
           {/* Logo */}
-          <Link to="/" className="flex flex-col items-center group relative">
+          <Link to="/" className="flex items-baseline gap-1.5 group">
             <span className="font-serif text-xl md:text-2xl text-gold-500 font-bold tracking-widest group-hover:text-gold-300 transition-colors drop-shadow-sm">
               PANTERAS
             </span>
-            <span className="text-[0.5rem] md:text-[0.55rem] text-gold-200/80 uppercase tracking-[0.3em] absolute -bottom-2 md:-bottom-2.5">
-              Brasília
+            <span className="font-serif text-sm md:text-base text-gold-300/70 font-semibold tracking-widest group-hover:text-gold-200/80 transition-colors">
+              BSB
             </span>
           </Link>
 
