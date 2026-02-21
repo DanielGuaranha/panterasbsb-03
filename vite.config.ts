@@ -7,5 +7,7 @@ export default defineConfig({
   server: {
     host: true,
     port: 3000,
+    // O segredo está aqui: 'true' permite QUALQUER host gerado pela Vercel
+    allowedHosts: true
   }
 })
