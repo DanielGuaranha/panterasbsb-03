@@ -29,7 +29,7 @@ const MOCK_MESSAGES: ChatMessage[] = [
   { id: 'm3', chat_id: 'c1', sender_type: 'client', message_text: 'Tudo ótimo. Vi suas fotos e fiquei encantado. Você atende no Lago Sul?', created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString() },
 ];
 
-const ChatPanelCompanion: React.FC<Props> = ({ companionId }) => {
+const ChatPanelCompanion: React.FC<Props> = () => {
   const { t } = useLanguage();
   
   // State

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CookieConsent from './CookieConsent';
-import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -25,9 +24,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
           {/* Navigation Actions */}
           <nav className="flex items-center gap-3 md:gap-5">
-            
-            <LanguageSwitcher />
-
             <div className="h-4 w-[1px] bg-slate-700 hidden md:block"></div>
 
             <Link 

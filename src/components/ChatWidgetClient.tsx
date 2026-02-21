@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { supabase } from '../services/supabaseClient';
 import { ChatMessage } from '../types';
 import useLockBodyScroll from '../hooks/useLockBodyScroll';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -10,11 +9,11 @@ interface Props {
   companionImage?: string;
 }
 
-const ChatWidgetClient: React.FC<Props> = ({ companionId, companionName, companionImage }) => {
+const ChatWidgetClient: React.FC<Props> = ({ companionId: _companionId, companionName, companionImage }) => {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  const [showGreeting, setShowGreeting] = useState(false); 
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [showGreeting, setShowGreeting] = useState(false);
+  const [_messages, _setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   
   useLockBodyScroll(isOpen);

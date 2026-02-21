@@ -21,7 +21,7 @@ const optimizeImageUrl = (url: string, width: number) => {
 };
 
 const ProfileCard: React.FC<Props> = ({ data, image, priority = false }) => {
-  const { t } = useLanguage();
+  const { t: _t } = useLanguage();
 
   const fallbackImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80";
   const sourceImage = image || data.image_url || fallbackImage;

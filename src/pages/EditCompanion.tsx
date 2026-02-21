@@ -70,8 +70,6 @@ const EditCompanion: React.FC = () => {
   const handleCoverUpload = (file: File) => {
       const objectUrl = URL.createObjectURL(file);
       setPreviewImage(objectUrl);
-      // Aqui entraria a lógica de upload real para o Supabase Storage
-      alert(`Simulação: Arquivo "${file.name}" selecionado para capa. Salve para confirmar.`);
   };
 
   if (isLoading) {

@@ -1,6 +1,6 @@
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { Companion, CompanionWithGallery, GalleryItem, CompanionReview } from '../types';
+import { Companion, CompanionWithGallery, CompanionReview } from '../types';
 
 // Safely access environment variables
 const env = (import.meta as any).env || {};

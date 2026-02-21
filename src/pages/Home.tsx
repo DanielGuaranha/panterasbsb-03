@@ -17,7 +17,6 @@ function fisherYatesShuffle<T>(array: T[]): T[] {
 
 const Home: React.FC = () => {
   const { t } = useLanguage();
-  const [companions, setCompanions] = useState<Companion[]>([]);
   const [shuffledCompanions, setShuffledCompanions] = useState<Companion[]>([]);
   const [categoryFilter, setCategoryFilter] = useState<'all' | 'vip' | 'destaque' | 'novata'>('all');
   const [selectedCity, setSelectedCity] = useState<string>('');
@@ -26,7 +25,6 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     getCompanions().then((data) => {
-      setCompanions(data);
       const SESSION_KEY = 'panteras_sort_order';
       const storedOrderJson = sessionStorage.getItem(SESSION_KEY);
       let finalOrder: Companion[] = [];
