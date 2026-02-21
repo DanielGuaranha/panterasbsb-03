@@ -12,5 +12,6 @@ export default defineConfig({
   server: {
     host: true, // Necessário para preview no IDX
     port: 3000
+    allwedHost: true
   }
 })
