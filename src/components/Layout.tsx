@@ -13,13 +13,21 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <div className="max-w-6xl mx-auto px-4 h-full flex items-center justify-between">
           
           {/* Logo */}
-          <Link to="/" className="flex flex-col items-center group relative">
-            <span className="font-serif text-xl md:text-2xl text-gold-500 font-bold tracking-widest group-hover:text-gold-300 transition-colors drop-shadow-sm">
-              PANTERAS
-            </span>
-            <span className="text-[0.5rem] md:text-[0.55rem] text-gold-200/80 uppercase tracking-[0.3em] absolute -bottom-2 md:-bottom-2.5">
-              Brasília
-            </span>
+          <Link to="/" className="flex items-center gap-2 group relative overflow-hidden">
+            <div className="relative flex flex-col items-start">
+              <div className="relative overflow-hidden">
+                <span className="font-serif text-xl md:text-2xl text-gold-500 font-bold tracking-widest group-hover:text-gold-300 transition-colors drop-shadow-sm">
+                  PANTERAS
+                </span>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-gold-500 to-gold-300 group-hover:w-full transition-all duration-300"></div>
+              </div>
+              <span className="text-[0.45rem] md:text-[0.5rem] text-gold-200/70 uppercase tracking-[0.2em] font-light">
+                • BRASÍLIA •
+              </span>
+            </div>
+            <div className="hidden md:flex flex-col items-center justify-center">
+              <div className="w-0.5 h-6 bg-gradient-to-b from-gold-500/50 via-gold-500/20 to-transparent"></div>
+            </div>
           </Link>
 
           {/* Navigation Actions */}
