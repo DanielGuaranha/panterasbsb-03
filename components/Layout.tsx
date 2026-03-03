@@ -16,7 +16,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               PANTERAS
             </span>
             <span className="text-[0.55rem] text-gold-200/80 uppercase tracking-[0.3em] absolute -bottom-2">
-              Brasília
+              BSB
             </span>
           </Link>
 

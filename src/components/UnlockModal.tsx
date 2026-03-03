@@ -10,7 +10,7 @@ interface Props {
 }
 
 const UnlockModal: React.FC<Props> = ({ isOpen, onClose, onConfirm, price, companionName }) => {
-  const { t: _t } = useLanguage();
+  const { t } = useLanguage();
   const [step, setStep] = useState<'method' | 'processing' | 'success'>('method');
   const [selectedMethod, setSelectedMethod] = useState<'pix' | 'card'>('pix');
 

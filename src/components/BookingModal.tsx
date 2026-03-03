@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Booking } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface Props {

@@ -2,6 +2,7 @@ import React, { Suspense, lazy, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { FilterProvider } from './contexts/FilterContext';
 import ProtectedRoute from './components/ProtectedRoute'; // Import Guard
 
 // Lazy Load Pages for Performance (WPO)
@@ -49,45 +50,47 @@ const ScrollToTop = () => {
 const App: React.FC = () => {
   return (
     <LanguageProvider>
-      <Router>
-        <ScrollToTop />
-        <Layout>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              {/* Rotas Públicas */}
-              <Route path="/" element={<Home />} />
-              <Route path="/perfil/:slug" element={<ProfileDetail />} />
-              <Route path="/painel/:companionId" element={<CompanionDashboard />} />
-              <Route path="/anunciar" element={<Advertise />} />
-              <Route path="/termos" element={<Terms />} />
-              <Route path="/privacidade" element={<Privacidade />} />
-              <Route path="/sobre" element={<About />} />
-              <Route path="/login" element={<Login />} />
+      <FilterProvider>
+        <Router>
+          <ScrollToTop />
+          <Layout>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                {/* Rotas Públicas */}
+                <Route path="/" element={<Home />} />
+                <Route path="/perfil/:slug" element={<ProfileDetail />} />
+                <Route path="/painel/:companionId" element={<CompanionDashboard />} />
+                <Route path="/anunciar" element={<Advertise />} />
+                <Route path="/termos" element={<Terms />} />
+                <Route path="/privacidade" element={<Privacidade />} />
+                <Route path="/sobre" element={<About />} />
+                <Route path="/login" element={<Login />} />
 
-              {/* Rotas Protegidas (Admin) */}
-              <Route 
-                path="/admin" 
-                element={
-                  <ProtectedRoute>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/models/:id" 
-                element={
-                  <ProtectedRoute>
-                    <EditCompanion />
-                  </ProtectedRoute>
-                } 
-              />
+                {/* Rotas Protegidas (Admin) */}
+                <Route 
+                  path="/admin" 
+                  element={
+                    <ProtectedRoute>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/admin/models/:id" 
+                  element={
+                    <ProtectedRoute>
+                      <EditCompanion />
+                    </ProtectedRoute>
+                  } 
+                />
 
-              {/* Fallback 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </Layout>
-      </Router>
+                {/* Fallback 404 */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </Layout>
+        </Router>
+      </FilterProvider>
     </LanguageProvider>
   );
 };
